@@ -1,0 +1,21 @@
+{
+  "name": "newproject",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "git init && echo node_modules/ > .gitignore && echo .env >> .gitignore && npm install express ejs mongoose mongodb dotenv && mkdir models views controllers routes public && mkdir public\\css public\\js views\\partials && echo >> app.js .env README.md",
+    "start": "node app.js"
+  },
+  "keywords": [],
+  "author": "C. Shirdxay",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongodb": "^6.16.0",
+    "mongoose": "^8.15.0"
+  }
+}
