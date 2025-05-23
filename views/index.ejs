@@ -31,44 +31,21 @@
           readonly
         />
         <br />
+        <textarea
+          id="comments"
+          name="comments"
+          rows="4"
+          cols="50"
+          placeholder="Comments..."
+        >
+        </textarea>
+        <br />
         <button type="submit">Submit</button>
       </form>
     </div>
-    <script>
-      function toggleGateInput() {
-        var select = document.getElementById('options');
-        var input = document.getElementById('gateOpening');
-        var selectedValue = select.value;
-        if (selectedValue.includes('ABC')) {
-          input.disabled = true;
-        } else {
-          input.disabled = false;
-        }
-      }
-      // Run on page load in case default is "ABC"
-      function fetchGPSLocation() {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            function (position) {
-              var gpsInput = document.getElementById('gpsLocation');
-              gpsInput.value =
-                position.coords.latitude + ', ' + position.coords.longitude;
-            },
-            function (error) {
-              var gpsInput = document.getElementById('gpsLocation');
-              gpsInput.value = 'Unable to retrieve location';
-            }
-          );
-        } else {
-          var gpsInput = document.getElementById('gpsLocation');
-          gpsInput.value = 'Geolocation not supported';
-        }
-      }
-      // Fetch GPS location on page load
-      window.onload = function () {
-        fetchGPSLocation();
-      };
-    </script>
+    <br />
     <%-include("./partials/footer.ejs") %>
+
+    <script src="../prefixpath/js/mainscript.js"></script>
   </body>
 </html>

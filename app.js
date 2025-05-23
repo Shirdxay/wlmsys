@@ -24,8 +24,8 @@ mongoose
 app.set('view engine', 'ejs');
 
 //serve static files under public directory
-//appending /mask to the url will serve the static files under public directory
-app.use('/mask', express.static('public'));
+//appending the prefixpath to the url will serve the static files under public directory
+app.use('/prefixpath', express.static('public'));
 //parse urlencoded data
 app.use(express.urlencoded({ extended: true }));
 //parse json data
