@@ -8,16 +8,6 @@ body {
   margin: 10px;
 }
 
-p {
-  color: #222;
-  font-size: 1.1rem;
-  line-height: 1.7;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  margin-bottom: 1em;
-  font-weight: bold;
-  text-align: center;
-}
-
 .form-container {
   background: #ffffff;
   padding: 2.5rem 2rem 2rem 2rem;
@@ -34,11 +24,9 @@ p {
 }
 
 .form-container p {
-  font-size: 1.3rem;
-  font-weight: bold;
+  font-size: 1rem;
   color: #22223b;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .form-container label {
@@ -97,4 +85,30 @@ p {
     min-width: 90vw;
     padding: 1.2rem 0.5rem;
   }
+}
+input[readonly] {
+    background-color: #b8b8b8; /* Light gray */
+    color: #808080; /* Darker gray text */
+    cursor: not-allowed;
+}
+
+#todaysEntriesTitle{
+  font-size: 1.2rem;
+  color: #4f4f4f;
+  margin-bottom: 0.5rem;
+  margin-left: 1.3rem;
+  font-weight: bold;
+}
+#entriesTable {
+  margin: 0 10px;
+  padding: 1rem;
+  background: #f9fafb;
+  border: 2px solid #f59300ad; /* Updated border color and thickness */
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 16px rgba(31, 38, 135, 0.12);
+  border-collapse: collapse;
+}
+#entriesTable th, #entriesTable td {
+  border: 1.5px solid #f59300ad;
+  padding: 0.5rem 1rem;
 }

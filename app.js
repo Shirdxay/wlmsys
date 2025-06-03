@@ -1,24 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { createPgClient, connectPgClient } = require('./pg/pgClient');
+const { convertUTCToLocal } = require('./helperFunc');
+
+
+// Load environment variables from .env file
 require('dotenv').config();
 
 //express app
 const app = express();
 
-//connect to mongodb
-const dbURI = process.env.MONGODB_URI;
-mongoose
-  .connect(dbURI)
-  .then(() => {
-    console.log('Connected to database');
-    //listen for requests
-    app.listen(process.env.PORT, () => {
-      console.log(`Server is running on port ${process.env.PORT}`);
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+/* postgres DB*/
+const client = createPgClient();
+connectPgClient(client);
+
+app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`));
 
 //register view engine
 app.set('view engine', 'ejs');
@@ -26,29 +22,66 @@ app.set('view engine', 'ejs');
 //serve static files under public directory
 //appending the prefixpath to the url will serve the static files under public directory
 app.use('/prefixpath', express.static('public'));
-//parse urlencoded data
-app.use(express.urlencoded({ extended: true }));
-//parse json data
-app.use(express.json());
+app.use(express.urlencoded({ extended: true })); //parse urlencoded data to nodejs objects
+app.use(express.json()); //parse json data to nodejs objects (allow for direct access to req.body)
 
 //set up routes
-//mlist is temporary data
-app.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Home',
-    mlist: [
-      'Laos,Thailand',
-      'Vietnam',
-      'Cambodia',
-      'Myanmar',
-      'Malaysiabc',
-      'Singapore',
-      'Brunei',
-      'Philippines',
-      'Indonesia',
-      'Timor-LesteABC',
-    ],
-  });
+app.get('/', async (req, res) => {
+  console.log('at home page');
+  try {
+    const flows = await client.query('select * from flow_name_view order by id');
+    res.render('index', {
+      title: 'Home',
+      flowRows: flows.rows}
+    );
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
+
+
+app.post('/submit', async (req, res) => {
+  const { options,waterLevel, gateOpening, gpsLocation } = req.body;
+  const [lat, long] = gpsLocation.split(',').map(Number);
+
+  const selectFlowID = options.split('_')[0]; //extract flow_id from the selected option
+  const image_url = "https://example.com/image1.jpg"; //temporary hardcoded value, should be replaced with actual image URL logic
+
+  //insert data into the database and retrieve today's entries for the selected flow_id
+  try {
+    const insertQuery = 'INSERT INTO records (flow_id, gate_opening, water_level, latitude, longitude, image_url) VALUES ($1, $2, $3, $4, $5, $6)';
+    await client.query(
+      insertQuery,
+      [selectFlowID, gateOpening, waterLevel, lat, long, image_url]
+    );
+
+    // Fetch today's entries for the selected flow_id
+    const todayEntriesQuery = 'SELECT * FROM records_view WHERE flow_id = $1 AND timestamp >= CURRENT_DATE ORDER BY timestamp DESC';
+    const result = await client.query(todayEntriesQuery, [selectFlowID]);
+    // Clear previous entries for this flow_id
+    const entries = [];
+    result.rows.forEach(row => {
+      entries.push({
+        Flow_ID: row.flow_id,
+        Structures_In_Out_Device: row.structures_in_out_device,
+        Gate_Opening: row.gate_opening,
+        Water_Level: row.water_level,
+        Latitude: row.latitude,
+        Longitude: row.longitude ,
+        Timestamp: convertUTCToLocal(row.timestamp),
+
+      });
+    });
+    // send response with message and today's entries
+    res.json({
+      message: 'Successfully',
+      entries: entries
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, error: 'Database insert error' });
+  }
 });
 
 //404 page (must be at the end)
