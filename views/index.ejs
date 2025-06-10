@@ -10,12 +10,16 @@
     <% } %>
     <%-include("./partials/form.ejs") %>
     <br>
-    
+    <div id="dimdiv"></div>
     <br>
     <p id="todaysEntriesTitle"> Today's Entries for ...</p>
     <div id="todaysEntriesDiv"></div>
     <br>
     <%-include("./partials/footer.ejs") %>
-    <script src="../prefixpath/js/mainscript.js"></script>
+    <script>
+    var flowRows = <%- JSON.stringify(flowRows) %>;
+    </script>
+    <script type ="module" src="../prefixpath/js/mainscript.js"></script>
+
   </body>
 </html>

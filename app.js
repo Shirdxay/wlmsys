@@ -27,11 +27,11 @@ app.use(express.json()); //parse json data to nodejs objects (allow for direct a
 
 //set up routes
 app.get('/', async (req, res) => {
-  console.log('at home page');
   try {
-    const flows = await client.query('select * from flow_name_view order by id');
+    //temporarily filter out flows with null q_planned values
+    const flows = await client.query('select * from selectopts where q_planned is not null order by id');
     res.render('index', {
-      title: 'Home',
+      title: 'WLMSys',
       flowRows: flows.rows}
     );
   } catch (err) {
@@ -41,8 +41,9 @@ app.get('/', async (req, res) => {
 });
 
 
+//handle form submission
 app.post('/submit', async (req, res) => {
-  const { options,waterLevel, gateOpening, gpsLocation } = req.body;
+  const { options,waterLevel, gateOpening, gpsLocation, q_planned,q_actual,k} = req.body;
   const [lat, long] = gpsLocation.split(',').map(Number);
 
   const selectFlowID = options.split('_')[0]; //extract flow_id from the selected option
@@ -50,12 +51,16 @@ app.post('/submit', async (req, res) => {
 
   //insert data into the database and retrieve today's entries for the selected flow_id
   try {
-    const insertQuery = 'INSERT INTO records (flow_id, gate_opening, water_level, latitude, longitude, image_url) VALUES ($1, $2, $3, $4, $5, $6)';
+    const insertQuery = 'INSERT INTO records (flow_id, gate_opening, water_level, latitude, longitude, image_url, q_planned,q_actual,k) VALUES ($1, $2, $3, $4, $5, $6,$7,$8, $9)';
     await client.query(
       insertQuery,
-      [selectFlowID, gateOpening, waterLevel, lat, long, image_url]
+      [selectFlowID, gateOpening, waterLevel, lat, long, image_url, q_planned,q_actual,k]
     );
-
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ success: false, error: 'Database insert error' });
+  }
+  try{
     // Fetch today's entries for the selected flow_id
     const todayEntriesQuery = 'SELECT * FROM records_view WHERE flow_id = $1 AND timestamp >= CURRENT_DATE ORDER BY timestamp DESC';
     const result = await client.query(todayEntriesQuery, [selectFlowID]);
@@ -67,6 +72,9 @@ app.post('/submit', async (req, res) => {
         Structures_In_Out_Device: row.structures_in_out_device,
         Gate_Opening: row.gate_opening,
         Water_Level: row.water_level,
+        Q_actual: row.q_actual,
+        Q_planned: row.q_planned,
+        K: row.k,
         Latitude: row.latitude,
         Longitude: row.longitude ,
         Timestamp: convertUTCToLocal(row.timestamp),
@@ -75,6 +83,7 @@ app.post('/submit', async (req, res) => {
     });
     // send response with message and today's entries
     res.json({
+      success: true,
       message: 'Successfully',
       entries: entries
     });
