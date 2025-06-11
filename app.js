@@ -14,6 +14,7 @@ const app = express();
 /* postgres DB*/
 //const client = createPgClient();
 //connectPgClient(client);
+
 // Connect to PostgreSQL (Render/Local)
 connectPg();
 
