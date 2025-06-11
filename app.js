@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { createPgClient, connectPgClient } = require('./pg/pgClient');
+//const { createPgClient, connectPgClient } = require('./pg/pgClient');
 const { convertUTCToLocal } = require('./helperFunc');
+const {client, connectPg} = require('./pg/pg');
 
 
 // Load environment variables from .env file
@@ -11,8 +12,10 @@ require('dotenv').config();
 const app = express();
 
 /* postgres DB*/
-const client = createPgClient();
-connectPgClient(client);
+//const client = createPgClient();
+//connectPgClient(client);
+// Connect to PostgreSQL (Render/Local)
+connectPg();
 
 app.listen(process.env.PORT, () => console.log(`Server is running on port ${process.env.PORT}`));
 

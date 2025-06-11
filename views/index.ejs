@@ -3,23 +3,20 @@
   <%-include("./partials/header.ejs") %>
   <body>
     <% if (typeof success !== 'undefined') { %>
-      <div class="alert alert-success"><%= success %></div>
-    <% } %>
-    <% if (typeof error !== 'undefined') { %>
-      <div class="alert alert-danger"><%= error %></div>
-    <% } %>
-    <%-include("./partials/form.ejs") %>
-    <br>
+    <div class="alert alert-success"><%= success %></div>
+    <% } %> <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+    <% } %> <%-include("./partials/form.ejs") %>
+    <br />
     <div id="dimdiv"></div>
-    <br>
-    <p id="todaysEntriesTitle"> Today's Entries for ...</p>
+    <br />
+    <p id="todaysEntriesTitle">Today's Entries for ...</p>
     <div id="todaysEntriesDiv"></div>
-    <br>
+    <br />
     <%-include("./partials/footer.ejs") %>
     <script>
-    var flowRows = <%- JSON.stringify(flowRows) %>;
+      var flowRows = <%- JSON.stringify(flowRows) %>;
     </script>
-    <script type ="module" src="../prefixpath/js/mainscript.js"></script>
-
+    <script type="module" src="../prefixpath/js/mainscript.js"></script>
   </body>
 </html>
