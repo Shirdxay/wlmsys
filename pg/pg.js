@@ -4,6 +4,8 @@ const { Client } = require('pg');
 
 // Use Render's DATABASE_URL if available, else fallback to .env variables
 const connectionString = process.env.DATABASE_URL || undefined;
+//const connectionString = undefined;
+
 
 const client = new Client(
   connectionString

@@ -94,10 +94,10 @@ function interpolateFromUnpivot(table, wl, go) {
         && (gate === goLow || gate === goHigh);
   });
 
-  const q11 = findQ(table, wlLow, goLow);
-  const q12 = findQ(table, wlLow, goHigh);
-  const q21 = findQ(table, wlHigh, goLow);
-  const q22 = findQ(table, wlHigh, goHigh);
+  const q11 = locateQ(table, wlLow, goLow);
+  const q12 = locateQ(table, wlLow, goHigh);
+  const q21 = locateQ(table, wlHigh, goLow);
+  const q22 = locateQ(table, wlHigh, goHigh);
   console.log("    q11,q12,q21,q22 =", q11, q12, q21, q22);
 
   if ([q11,q12,q21,q22].every(q=>q==null)) return null;

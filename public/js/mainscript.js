@@ -48,7 +48,7 @@ function updateEntries(result){
   // Update today's entries section
       const todayEntriesDiv = document.getElementById('todaysEntriesDiv');
       todayEntriesDiv.innerHTML = ''; // Clear previous entries
-      if(result.entries.length === 0) {
+      if(result.entries.length === 0){
         todayEntriesDiv.textContent = 'No entries for today.';
       }else{
         const table = document.createElement('table');
@@ -89,7 +89,7 @@ document.getElementById('recordForm').addEventListener('submit', function (event
   //locate q_planned value based on the selected option
   let selectedRow = flowRows.find(row => row.id === selectedOptionFlowID);
 
-  const qpIndex = getQPIndex(new Date('2025-1-1')); // Get the index for q_planned based on days difference
+  const qpIndex = getQPIndex(new Date('2025-11-1')); // Get the index for q_planned based on days difference
   const qp = selectedRow.q_planned[qpIndex];
 
   // Calculate Q_actual based on water level and gate opening
@@ -171,7 +171,7 @@ document.getElementById('options').addEventListener('change', function() {
   const flowID = Number(selectedOption.split('_')[0]); 
   let inner = '';
   let selectedRow = flowRows.find(row => row.id === flowID);
-  const qpIndex = getQPIndex(new Date('2025-1-1')); // Get the index for q_planned based on days difference
+  const qpIndex = getQPIndex(new Date('2024-11-1')); // Get the index for q_planned based on days difference
 
   if (selectedRow.device_type === 'BCW') {
     inner = `Bc: ${selectedRow.bcw_bc} <br>P1: ${selectedRow.bcw_p1}<br> L: ${selectedRow.bcw_l} <br> Q planned: ${selectedRow.q_planned[qpIndex]}`;
@@ -192,6 +192,7 @@ document.getElementById('options').addEventListener('change', function() {
 
 document.getElementById('options').addEventListener('change', function() {
   toggleGateInput();
+
 });
 
 
