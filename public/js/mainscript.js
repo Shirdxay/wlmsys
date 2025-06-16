@@ -98,7 +98,7 @@ document.getElementById('recordForm').addEventListener('submit', function (event
     bc: selectedRow.bcw_bc,
     p1: selectedRow.bcw_p1,
     l: selectedRow.bcw_l,
-    width: selectedRow.sg_b,
+    b: selectedRow.sg_b,
     hc: selectedRow.sg_hc,
     numgates: selectedRow.sg_numgates,
     type: selectedRow.device_type
