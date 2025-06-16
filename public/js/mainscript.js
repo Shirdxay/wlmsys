@@ -89,7 +89,7 @@ document.getElementById('recordForm').addEventListener('submit', function (event
   //locate q_planned value based on the selected option
   let selectedRow = flowRows.find(row => row.id === selectedOptionFlowID);
 
-  const qpIndex = getQPIndex(new Date('2025-11-1')); // Get the index for q_planned based on days difference
+  const qpIndex = getQPIndex(new Date('2024-11-1')); // Get the index for q_planned based on days difference
   const qp = selectedRow.q_planned[qpIndex];
 
   // Calculate Q_actual based on water level and gate opening
@@ -106,7 +106,7 @@ document.getElementById('recordForm').addEventListener('submit', function (event
   const qa = parseFloat(calculateQ(waterLevel,gateOpening,dimMap).toFixed(2));
   
   //calculate K value
-  let k = qp === 0? 0: qa/qp;
+  let k = (qp === 0? 0: qa/qp);
   k= parseFloat(k.toFixed(3)); 
 
   // Validate inputs
