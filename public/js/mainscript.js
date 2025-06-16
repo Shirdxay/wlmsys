@@ -172,6 +172,7 @@ document.getElementById('options').addEventListener('change', function() {
   let inner = '';
   let selectedRow = flowRows.find(row => row.id === flowID);
   const qpIndex = getQPIndex(new Date('2024-11-1')); // Get the index for q_planned based on days difference
+    console.log(qpIndex);
 
   if (selectedRow.device_type === 'BCW') {
     inner = `Bc: ${selectedRow.bcw_bc} <br>P1: ${selectedRow.bcw_p1}<br> L: ${selectedRow.bcw_l} <br> Q planned: ${selectedRow.q_planned[qpIndex]}`;
