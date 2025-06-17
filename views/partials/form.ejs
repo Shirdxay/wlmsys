@@ -1,54 +1,50 @@
 <div class="form-container">
-      <form id="recordForm">
-        <h1>Water Level Monitoring (RIMP)</h1>
-          <div style="display: grid; grid-template-columns: 180px 1fr; gap: 10px; align-items: center;">
-            <label for="options">Choose an option:</label>
-            <select name="options" id="options">
-              <option value="">--- Select Flow Name ---</option>
-              <% flowRows.forEach((item) => { %>
-                <!--show the flow name combination, but the actual value is the id of the flow-->
-              <option value="<%= item.selectionopts %>"> <%= item.selectionopts%> </option>
-              <% }); %>
-            </select>
+  <form id="recordForm">
+    <h1>Water Level Monitoring (RIMP)</h1>
+    <div
+      style="
+        display: grid;
+        grid-template-columns: 180px 1fr;
+        gap: 10px;
+        align-items: center;
+      ">
+      <label for="options">Choose an option:</label>
+      <select name="options" id="options">
+        <option value="">--- Select Flow Name ---</option>
+        <% flowRows.forEach((item) => { %>
+        <!--show the flow name combination, but the actual value is the id of the flow-->
+        <option value="<%= item.selectionopts %>">
+          <%= item.selectionopts%>
+        </option>
+        <% }); %>
+      </select>
 
-            <label for="waterLevel">Water Level [cm]:</label>
-            <input
-            type="number"
-            id="waterLevel"
-            name="waterLevel"
-            min="0"
-            step="0.1"
-            />
+      <label for="waterLevel">Water Level [cm]:</label>
+      <input
+        type="number"
+        id="waterLevel"
+        name="waterLevel"
+        min="0"
+        step="0.1" />
 
-            <label for="gateOpening">Gate opening [cm]:</label>
-            <input
-            type="number"
-            id="gateOpening"
-            name="gateOpening"
-            min="0"
-            step="0.1"
-            />
+      <label for="gateOpening">Gate opening [cm]:</label>
+      <input
+        type="number"
+        id="gateOpening"
+        name="gateOpening"
+        min="0"
+        step="0.1" />
 
-            <label for="gpsLocation">GPS Location:</label>
-            <input
-            type="text"
-            id="gpsLocation"
-            name="gpsLocation"
-            placeholder="Latitude, Longitude"
-            readonly
-            />
-
-            <label for="comments" style="align-self: start;">Comments:</label>
-            <textarea
-            id="comments"
-            name="comments"
-            rows="4"
-            cols="50"
-            placeholder="Comments..."
-            ></textarea>
-          </div>
-          <br />
-        <button type="submit">Submit</button>
-        <p id="formMessage"></p>
-      </form>
+      <label for="gpsLocation">GPS Location:</label>
+      <input
+        type="text"
+        id="gpsLocation"
+        name="gpsLocation"
+        placeholder="Latitude, Longitude"
+        readonly />
     </div>
+    <br />
+    <button type="submit">Submit</button>
+    <p id="formMessage"></p>
+  </form>
+</div>
